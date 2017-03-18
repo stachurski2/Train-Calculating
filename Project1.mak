@@ -18,11 +18,11 @@ OBJFILES = Project1.obj Unit1.obj Unit2.obj \
     "F:\SRK STUDIA WAW\Praca mgr\plyta\src\Project1.obj" \
     "F:\SRK STUDIA WAW\Praca mgr\plyta\src\Unit1.obj" \
     "F:\SRK STUDIA WAW\Praca mgr\plyta\src\Unit2.obj" Unit4.obj Unit3.obj \
-    Unit5.obj Unit6.obj Unit7.obj
+    Unit5.obj Unit6.obj Unit7.obj Unit8.obj
 RESFILES = Project1.res
 MAINSOURCE = Project1.cpp
 RESDEPEN = $(RESFILES) Unit1.dfm Unit2.dfm Unit4.dfm Unit3.dfm Unit5.dfm Unit6.dfm \
-    Unit7.dfm
+    Unit7.dfm Unit8.dfm
 LIBFILES = 
 IDLFILES = 
 IDLGENFILES = 

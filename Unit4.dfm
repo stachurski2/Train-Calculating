@@ -1,10 +1,10 @@
 object Form4: TForm4
-  Left = -38
-  Top = 208
+  Left = -40
+  Top = 382
   BorderStyle = bsToolWindow
   Caption = 'Form4'
   ClientHeight = 432
-  ClientWidth = 1323
+  ClientWidth = 1333
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -106,74 +106,32 @@ object Form4: TForm4
     Height = 2
   end
   object Label1: TLabel
-    Left = 238
-    Top = 374
+    Left = 22
+    Top = 390
     Width = 69
     Height = 13
     Caption = 'Skala wykresu'
   end
-  object Label2: TLabel
-    Left = 287
-    Top = 393
-    Width = 46
-    Height = 13
-    Caption = 'px = 1 km'
-  end
-  object Label3: TLabel
-    Left = 29
-    Top = 373
-    Width = 111
-    Height = 13
-    Caption = 'Przesuwanie wykresu o'
-  end
-  object Label4: TLabel
-    Left = 197
-    Top = 376
-    Width = 11
-    Height = 13
-    Caption = 'm.'
-  end
   object Label5: TLabel
-    Left = 360
-    Top = 374
+    Left = 196
+    Top = 390
     Width = 32
     Height = 13
     Caption = 'Label5'
   end
   object Label6: TLabel
-    Left = 361
-    Top = 398
+    Left = 197
+    Top = 414
     Width = 32
     Height = 13
     Caption = 'Label6'
   end
   object Label7: TLabel
-    Left = 536
-    Top = 374
+    Left = 104
+    Top = 390
     Width = 32
     Height = 13
     Caption = 'Label7'
-  end
-  object Label8: TLabel
-    Left = 536
-    Top = 398
-    Width = 32
-    Height = 13
-    Caption = 'Label8'
-  end
-  object Label9: TLabel
-    Left = 744
-    Top = 374
-    Width = 32
-    Height = 13
-    Caption = 'Label9'
-  end
-  object Label10: TLabel
-    Left = 744
-    Top = 398
-    Width = 38
-    Height = 13
-    Caption = 'Label10'
   end
   object Shape2: TShape
     Left = 29
@@ -220,39 +178,31 @@ object Form4: TForm4
     Height = 13
     Caption = '320'
   end
-  object Button1: TButton
-    Left = 118
-    Top = 396
-    Width = 57
-    Height = 16
-    Caption = '>'
+  object Button3: TButton
+    Left = 56
+    Top = 408
+    Width = 33
+    Height = 25
+    Caption = '+'
     TabOrder = 0
-    OnClick = Button1Click
+    OnClick = Button3Click
   end
-  object Edit1: TEdit
-    Left = 243
-    Top = 390
-    Width = 41
-    Height = 21
+  object Button4: TButton
+    Left = 24
+    Top = 408
+    Width = 33
+    Height = 25
+    Caption = '-'
     TabOrder = 1
-    Text = '1000'
-    OnChange = Edit1Change
+    OnClick = Button4Click
   end
-  object Button2: TButton
-    Left = 54
-    Top = 396
-    Width = 57
-    Height = 16
-    Caption = '<'
+  object ScrollBar1: TScrollBar
+    Left = 28
+    Top = 344
+    Width = 1293
+    Height = 17
+    PageSize = 0
     TabOrder = 2
-    OnClick = Button2Click
-  end
-  object Edit2: TEdit
-    Left = 144
-    Top = 371
-    Width = 49
-    Height = 21
-    TabOrder = 3
-    Text = '100'
+    OnChange = ScrollBar1Change
   end
 end

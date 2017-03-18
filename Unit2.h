@@ -35,6 +35,15 @@ __published:	// IDE-managed Components
         TButton *Button6;
         TSaveDialog *SaveDialog1;
         TButton *Button7;
+        TPopupMenu *PopupMenu1;
+        TMenuItem *blabl1;
+        TMenuItem *blele1;
+        TPopupMenu *PopupMenu2;
+        TMenuItem *Usupostj1;
+        TMenuItem *Edytujpostj1;
+        TMenuItem *Wstawpostj1;
+        TMenuItem *Usupostjje1;
+        TMenuItem *Dodajodcinek1;
         void __fastcall Button1Click(TObject *Sender);
         void __fastcall Button3Click(TObject *Sender);
         void __fastcall Button2Click(TObject *Sender);
@@ -45,6 +54,15 @@ __published:	// IDE-managed Components
         void __fastcall Button6Click(TObject *Sender);
         void __fastcall ListBox1Click(TObject *Sender);
         void __fastcall Button7Click(TObject *Sender);
+        void __fastcall blele1Click(TObject *Sender);
+        void __fastcall blabl1Click(TObject *Sender);
+        void __fastcall ListBox3Click(TObject *Sender);
+        void __fastcall Wstawpostj1Click(TObject *Sender);
+        void __fastcall FormCreate(TObject *Sender);
+        void __fastcall Usupostj1Click(TObject *Sender);
+        void __fastcall Usupostjje1Click(TObject *Sender);
+        void __fastcall Dodajodcinek1Click(TObject *Sender);
+        void __fastcall Edytujpostj1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm2(TComponent* Owner);

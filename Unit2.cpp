@@ -98,7 +98,21 @@ void __fastcall TForm2::Button2Click(TObject *Sender)
 
 void __fastcall TForm2::ListBox2Click(TObject *Sender)
 {
-//Label6->Caption=CurrToStr(ListBox2->ItemIndex);
+        if(Form1->Linia->DescriptionCount()>0){
+                Form2->Usupostj1->Enabled=1;
+                int a = ListBox2->ItemIndex;
+                int b = Form1->Linia->DescribeLocation(a);
+                if(Form1->Linia->Vmax(b)==0 && b<Form1->Linia->ShowLength()){Form2->Usupostjje1->Enabled=1;}
+                else{Form2->Usupostjje1->Enabled=0;}
+         }
+         else {
+               Form2->Usupostj1->Enabled=0;
+
+         }
+                POINT p;
+                GetCursorPos(&p);
+                PopupMenu2->Popup(p.x,p.y);
+
 }
 //---------------------------------------------------------------------------
 
@@ -177,23 +191,12 @@ void __fastcall TForm2::Button6Click(TObject *Sender)
 
 void __fastcall TForm2::ListBox1Click(TObject *Sender)
 {
-Form6->number_of_section=ListBox1->ItemIndex;
-Form6->Visible="TRUE";
-Form6->Button2->Visible=0;
-Form6->Button1->Visible=1;
-Form6->CheckBox2->Visible=1;
-Form6->Label6->Visible=1;
-Form6->Caption="W³asciwosci odcinka nr "+CurrToStr(ListBox1->ItemIndex);
-Form6->Edit1->Text = Form1->Linia->ShowStart(ListBox1->ItemIndex);
-Form6->Edit2->Text = Form1->Linia->ShowEnd(ListBox1->ItemIndex);
-Form6->Edit3->Text = Form1->Linia->ShowSpeed(ListBox1->ItemIndex);
-if(Form1->Linia->ShowSpot(ListBox1->ItemIndex)==1){
-Form6->CheckBox1->Checked="TRUE";
-}
-else if(Form1->Linia->ShowSpot(ListBox1->ItemIndex)==0)
-{
-Form6->CheckBox1->Checked=0;
-}
+        POINT p;
+        GetCursorPos(&p);
+       PopupMenu1->Popup(p.x,p.y);
+       /*
+
+       */
 }
 //---------------------------------------------------------------------------
 
@@ -205,6 +208,148 @@ void __fastcall TForm2::Button7Click(TObject *Sender)
         Form6->Caption="Definiowanie ograniczenia";
         Form6->CheckBox2->Visible=0;
         Form6->Label6->Visible=0;
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TForm2::blele1Click(TObject *Sender)
+{
+ Form6->number_of_section=ListBox1->ItemIndex;
+        Form6->Visible="TRUE";
+        Form6->Show();
+        Form6->Button2->Visible=0;
+        Form6->Button1->Visible=1;
+        Form6->CheckBox2->Visible=1;
+        Form6->CheckBox3->Visible=0;
+        Form6->Label1->Visible=0;
+        Form6->Label6->Visible=1;
+        Form6->Caption="W³asciwosci odcinka nr "+CurrToStr(ListBox1->ItemIndex);
+        Form6->Edit1->Text = Form1->Linia->ShowStart(ListBox1->ItemIndex);
+        Form6->Edit2->Text = Form1->Linia->ShowEnd(ListBox1->ItemIndex);
+        Form6->Edit3->Text = Form1->Linia->ShowSpeed(ListBox1->ItemIndex);
+        if(Form1->Linia->ShowSpot(ListBox1->ItemIndex)==1){
+                Form6->CheckBox1->Checked="TRUE";
+        }
+        else if(Form1->Linia->ShowSpot(ListBox1->ItemIndex)==0)
+        {
+                Form6->CheckBox1->Checked=0;
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::blabl1Click(TObject *Sender)
+{
+   Form1->Linia->ChangeSection(1,ListBox1->ItemIndex,0,0,0,0);
+   Form2->ListBox1->Items->Clear();
+   for(int i=0; i<Form1->Linia->Size(); i++){
+                        AnsiString s= Form1->Linia->ShowSection(i);
+                        Form2->ListBox1->Items->Add(s);}
+   Form2->ListBox2->Items->Clear();
+   for(int i=0; i<Form1->Linia->DescriptionCount(); i++){
+                        AnsiString s=Form1->Linia->ShowDescribe(i);
+                        Form2->ListBox2->Items->Add(s);}
+   if(Form1->Linia->DescriptionCount()==0){Form2->ListBox2->Items->Add("      ");}
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::ListBox3Click(TObject *Sender)
+{
+
+        POINT p;
+        GetCursorPos(&p);
+       PopupMenu2->Popup(p.x,p.y);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::Wstawpostj1Click(TObject *Sender)
+{
+
+Form8->Show();
+Form8->Label1->Caption="Lokalizacja postoju";
+Form8->Button1->Visible=1;
+Form8->Button2->Visible=0;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm2::FormCreate(TObject *Sender)
+{
+//if( ListBox3->Items->Count==0) {ListBox3->Items->Add("   ");}
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TForm2::Usupostj1Click(TObject *Sender)
+{
+
+if(Form1->Linia->DescriptionCount()>0){
+        int a= ListBox2->ItemIndex;
+        if(a<0 || a>(Form1->Linia->DescriptionCount())-1){
+                a=Form1->Linia->DescriptionCount()-1;
+        }
+        Form1->Linia->DeleteDescribe(a);
+        ListBox2->Items->Clear();
+        for(int i=0; i<Form1->Linia->DescriptionCount(); i++){
+                AnsiString s=Form1->Linia->ShowDescribe(i);
+                Form2->ListBox2->Items->Add(s);}
+        if(Form1->Linia->DescriptionCount()==0){Form2->ListBox2->Items->Add("      ");}
+}
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm2::Usupostjje1Click(TObject *Sender)
+{
+       int a = ListBox2->ItemIndex;
+       int b = Form1->Linia->DescribeLocation(a);
+
+        ShowMessage(CurrToStr(Form1->Linia->FindSection(b))+"//"+CurrToStr(Form1->Linia->Size()));
+        Form1->Linia->DeleteDescribe(a);
+        Form1->Linia->ChangeSection(1,Form1->Linia->FindSection(b),0,0,0,0);
+        Form2->ListBox1->Items->Clear();
+        for(int i=0; i<Form1->Linia->Size(); i++){
+                        AnsiString s= Form1->Linia->ShowSection(i);
+                        Form2->ListBox1->Items->Add(s);}
+        Form2->ListBox2->Items->Clear();
+        for(int i=0; i<Form1->Linia->DescriptionCount(); i++){
+                        AnsiString s=Form1->Linia->ShowDescribe(i);
+                        Form2->ListBox2->Items->Add(s);}
+        if(Form1->Linia->DescriptionCount()==0){Form2->ListBox2->Items->Add("      ");}
+
+}
+//---------------------------------------------------------------------------
+
+
+
+
+void __fastcall TForm2::Dodajodcinek1Click(TObject *Sender)
+{
+         Form6->Visible="TRUE";
+         Form6->Show();
+         Form6->CheckBox3->Visible=1;
+          Form6->CheckBox3->Checked=0;
+        Form6->Label1->Visible=1;
+        Form6->Button2->Visible=1;
+        Form6->Button1->Visible=0;
+        Form6->Edit1->Enabled=1;
+         Form6->Edit2->Enabled=1;
+          Form6->Edit3->Enabled=1;
+           Form6->CheckBox1->Enabled=1;
+        Form6->Caption="Definiowanie ograniczenia";
+        Form6->CheckBox2->Visible=0;
+        Form6->Label6->Visible=0;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::Edytujpostj1Click(TObject *Sender)
+{
+        Form8->Show();
+        Form8->Label1->Caption="Lokalizacja punktu rozk³adowego";
+        Form8->Button2->Visible=1;
+        Form8->Button1->Visible=0;
 }
 //---------------------------------------------------------------------------
 

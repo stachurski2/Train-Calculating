@@ -1,8 +1,8 @@
 object Form6: TForm6
-  Left = 797
-  Top = 314
-  Width = 320
-  Height = 182
+  Left = 561
+  Top = 424
+  Width = 323
+  Height = 181
   Caption = 'Form6'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -48,6 +48,13 @@ object Form6: TForm6
     Height = 13
     Caption = 'Usu'#324' odcinek (wyd'#322'u'#380' poprzedni)'
   end
+  object Label1: TLabel
+    Left = 107
+    Top = 73
+    Width = 74
+    Height = 13
+    Caption = 'Wyd'#322'u'#380'enie linii'
+  end
   object Edit1: TEdit
     Left = 24
     Top = 25
@@ -71,7 +78,7 @@ object Form6: TForm6
   end
   object Button1: TButton
     Left = 104
-    Top = 105
+    Top = 97
     Width = 97
     Height = 25
     Caption = 'Zmie'#324
@@ -97,12 +104,20 @@ object Form6: TForm6
   end
   object Button2: TButton
     Left = 104
-    Top = 72
+    Top = 112
     Width = 97
     Height = 25
     Caption = 'Dodaj odc.'
     TabOrder = 6
     Visible = False
     OnClick = Button2Click
+  end
+  object CheckBox3: TCheckBox
+    Left = 192
+    Top = 72
+    Width = 17
+    Height = 17
+    TabOrder = 7
+    OnClick = CheckBox3Click
   end
 end

@@ -32,36 +32,36 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 void __fastcall TForm1::ZaladujLinie1Click(TObject *Sender)
 {
 
-try
-{
-if(OpenDialog1->Execute())
-{
-dane  -> LoadFromFile(OpenDialog1->FileName);
-if(RouteOpen==0)
-{
-Linia = new Route(dane);
-RouteOpen=1;
-}
-else
-{
-Linia -> ~Route();
-Linia = new Route(dane);
+        try
+        {
+                if(OpenDialog1->Execute())
+                {
+                dane  -> LoadFromFile(OpenDialog1->FileName);
+                if(RouteOpen==0)
+                {
+                Linia = new Route(dane);
+                RouteOpen=1;
+                }
+                else
+                {
+                Linia -> ~Route();
+                Linia = new Route(dane);
+                }
+                Form4->Caption=OpenDialog1->FileName;
+                Label33->Caption="Zaladowano linie o dlugosci "+CurrToStr(Linia->ShowLength())+" m.";
 
 
-}
-Form4->Caption=OpenDialog1->FileName;
-Label33->Caption="Zaladowano linie o dlugosci "+CurrToStr(Linia->ShowLength())+" m.";
-
-//Form1->Button2->Visible="TRUE";
-Form1->EdytujLinie1->Enabled="TRUE";
-Form1->W1->Enabled="TRUE";
-Form4->Wykres2=0;
-}
-}
-catch(...)
-{
-ShowMessage("Nie udalo sie otworzyc pliku");
-}
+                Form1->EdytujLinie1->Enabled="TRUE";
+                Form1->W1->Enabled="TRUE";
+                Form4->Wykres2=0;
+                profilstatyczny.erase(profilstatyczny.begin(),profilstatyczny.end());
+                jazda.erase(jazda.begin(),jazda.end());
+                }
+        }
+        catch(...)
+        {
+                ShowMessage("Nie udalo sie otworzyc pliku");
+        }
 }
 //---------------------------------------------------------------------------
 
@@ -69,12 +69,15 @@ void __fastcall TForm1::EdytujLinie1Click(TObject *Sender)
 {
 if(Form2->Visible==0)
 {
+         Form2->ListBox1->Clear();
         for(int i=0; i<Linia->Size(); i++){
                 AnsiString s=Linia->ShowSection(i);
                 Form2->ListBox1->Items->Add(s);}
+        Form2->ListBox2->Clear();
         for(int i=0; i<Linia->DescriptionCount(); i++){
                 AnsiString s=Linia->ShowDescribe(i);
                 Form2->ListBox2->Items->Add(s);}
+        if(Linia->DescriptionCount()==0){Form2->ListBox2->Items->Add("      ");}
         Form2->Visible="TRUE";
 }
 }
@@ -82,11 +85,12 @@ if(Form2->Visible==0)
 
 void __fastcall TForm1::W1Click(TObject *Sender)
 {
-
-Form4->Visible="TRUE";
-Form4->TrainMaxSpeed=Linia->TheHighestSpeed();
-profilstatyczny=staticprofile(Linia,NULL);
-Form4->RysujWykres(profilstatyczny,Form4->start,atoi(Form4->Edit1->Text.c_str()),0,Linia->TheHighestSpeed());
+        Form4->RouteLength=Linia->ShowLength();
+        Form4->Visible="TRUE";
+        Form4->SetWindowSize(Linia->TheHighestSpeed());
+        profilstatyczny=staticprofile(Linia,NULL);
+        Form4->SetScale(Linia->ShowLength());
+        Form4->RysujWykres(profilstatyczny,Form4->start,Form4->skala,0,Linia->TheHighestSpeed());
 
 
 }
@@ -97,18 +101,18 @@ Form4->RysujWykres(profilstatyczny,Form4->start,atoi(Form4->Edit1->Text.c_str())
 
 void __fastcall TForm1::NowaLinia1Click(TObject *Sender)
 {
-if(RouteOpen==0)
-{
-Linia = new Route(dane,1);
-RouteOpen=1;
-}
-else
-{
-Linia -> ~Route();
-Linia = new Route(dane,1);
-}
-Form1->EdytujLinie1->Enabled="TRUE";
-Form1->W1->Enabled="TRUE";
+        if(RouteOpen==0)
+        {
+                Linia = new Route(dane,1);
+                RouteOpen=1;
+        }
+        else
+        {
+                Linia -> ~Route();
+                Linia = new Route(dane,1);
+        }
+        Form1->EdytujLinie1->Enabled="TRUE";
+        Form1->W1->Enabled="TRUE";
 }
 //---------------------------------------------------------------------------
 
@@ -120,29 +124,28 @@ void __fastcall TForm1::ZaladujPojazd1Click(TObject *Sender)
 {
 try
 {
-if(OpenDialog2->Execute())
-{
-if(VehicleOpen==1){
-Pojazd -> ~Vehicle();
-}
-else {
-VehicleOpen=1;
-}
-dane2  -> LoadFromFile(OpenDialog2->FileName);
-Pojazd = new Vehicle(dane2);
-Form1-> E1 -> Enabled = "TRUE";
-Form1->Label1->Caption = "Za³adowano pojazd z pliku: "+OpenDialog2->FileName;
-VehicleOpen=1;
-//Edit1->Enabled="TRUE";
-Edit2->Text = Pojazd ->ShowName();
-Edit3->Text = Pojazd ->ShowLength();
-Edit6->Text = Pojazd ->ShowWeight();
-Edit10->Text = Pojazd ->ShowWheels();
-Edit13->Text = CurrToStr(Pojazd -> Vmax());
-Edit7->Text = "100";
-GroupBox1->Enabled="TRUE";
-Form4->Wykres2=0;
-}
+        if(OpenDialog2->Execute())
+        {
+        if(VehicleOpen==1){
+        Pojazd -> ~Vehicle();
+        }
+        else {
+        VehicleOpen=1;
+        }
+        dane2  -> LoadFromFile(OpenDialog2->FileName);
+        Pojazd = new Vehicle(dane2);
+        Form1-> E1 -> Enabled = "TRUE";
+        Form1->Label1->Caption = "Za³adowano pojazd z pliku: "+OpenDialog2->FileName;
+        VehicleOpen=1;
+        Edit2->Text = Pojazd ->ShowName();
+        Edit3->Text = Pojazd ->ShowLength();
+        Edit6->Text = Pojazd ->ShowWeight();
+        Edit10->Text = Pojazd ->ShowWheels();
+        Edit13->Text = CurrToStr(Pojazd -> Vmax());
+        Edit7->Text = "100";
+        GroupBox1->Enabled="TRUE";
+        Form4->Wykres2=0;
+        }
 }
 catch(...)
 {
@@ -153,7 +156,7 @@ ShowMessage("Nie udalo sie otworzyc pliku");
 
 void __fastcall TForm1::E1Click(TObject *Sender)
 {
-        Form3->Visible="TRUE";
+        Form3->Show();
         Form3->Edit1->Text = Pojazd->ShowName();
         Form3->Edit2->Text = Pojazd->ShowWheels();
         Form3->Edit3->Text = Pojazd->ShowWeight();
@@ -227,10 +230,12 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
+
         Pociag = new Train(Pojazd,locomotives,atoi(Edit11->Text.c_str()),atof(Edit8->Text.c_str()),atoi(Edit4->Text.c_str()),atoi(Edit7->Text.c_str()),atoi(Edit13->Text.c_str()));
         Edit5->Text=CurrToStr(Pociag->TrainLength());
         Edit9->Text=CurrToStr(Pociag->TrainWeight());
         Edit12->Text=CurrToStr(Pociag->LWheels() + Pociag->CWheels() );
+
         if(atoi(Edit7->Text.c_str())<30){
         Application->MessageBoxA("Minimalny % masy hamuj¹cej wynosi 30%","Masa hamuj¹ca",MB_ICONWARNING);
 
@@ -241,12 +246,20 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
         }
         else
         {
-        jazda = trainride(Pociag,Linia,Hamulec);
-        Form4->Visible="TRUE";
-        Form4->RysujWykres2(jazda,atoi(Form4->Edit1->Text.c_str()),Pociag->TrainMaxSpeed(),Form4->start);
-        Form4->TrainMaxSpeed=atoi(Form1->Edit13->Text.c_str());
-        Form4->Wykres2=1;
 
+        jazda = trainride(Pociag,Linia,Hamulec);
+        Form4->SetWindowSize(atoi(Form1->Edit13->Text.c_str()));
+        Form4->Label5->Caption = "Pocz¹tek wykresu: 0";
+        Form4->Label6->Caption = "Maksymalna prêdkosc: "+ CurrToStr(Form1->Linia->Vmax(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())));
+        Form4->Show();
+        Form4->Refresh();
+        Form4->Wykres2=1;
+        Form4->SetScale(Linia->ShowLength());
+        Form4->start=0;
+        Form4->RysujWykres(profilstatyczny,Form4->start,Form4->skala,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str()));
+        Form4->RysujWykres2(jazda,Form4->skala,Pociag->TrainMaxSpeed(),Form4->start);
+        Form4->TrainMaxSpeed=atoi(Form1->Edit13->Text.c_str());
+        Form4->RouteLength=Linia->ShowLength();
         }
 
 
@@ -261,10 +274,12 @@ Form4->Wykres2=0;
 
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
+
         Pociag = new Train(Pojazd,locomotives,atoi(Edit11->Text.c_str()),atof(Edit8->Text.c_str()),atoi(Edit4->Text.c_str()),atoi(Edit7->Text.c_str()),atoi(Edit13->Text.c_str()));
         Edit5->Text=CurrToStr(Pociag->TrainLength());
         Edit9->Text=CurrToStr(Pociag->TrainWeight());
         Edit12->Text=CurrToStr(Pociag->LWheels() + Pociag->CWheels() );
+
         if(atoi(Edit7->Text.c_str())<30){
         Application->MessageBoxA("Minimalny % masy hamuj¹cej wynosi 30%","Masa hamuj¹ca",MB_ICONWARNING);
 
@@ -273,23 +288,26 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
           Application->MessageBoxA(("Maksymalna prêdkosc pociagu wynosi "+CurrToStr(Pojazd->Vmax())+" km/h. \n Wpisz nizsza wartosc").c_str(),"Prêdkosc",MB_ICONWARNING);
 
         }
-        Form4->Visible="TRUE";
+       // Form4->Visible="TRUE";
+          Form4->Show();
+        Form4->RouteLength=Linia->ShowLength();
         Form4->TrainLength=Pociag->TrainLength();
-        Form4->TrainMaxSpeed=atoi(Form1->Edit13->Text.c_str());
+        Form4->SetWindowSize(atoi(Form1->Edit13->Text.c_str()));
         profilstatyczny=staticprofile(Linia,Pociag);
-        Form4->RysujWykres(profilstatyczny,Form4->start,atoi(Form4->Edit1->Text.c_str()),Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str()));
-        Form4->Label5->Caption = "Po³o¿enie czo³a poci¹gu: "+ CurrToStr(0);
+        Form4->SetScale(Linia->ShowLength());
+        Form4->RysujWykres(profilstatyczny,Form4->start,Form4->skala,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str()));
+        Form4->Label5->Caption = "Pocz¹tek wykresu: 0";
         Form4->Label6->Caption = "Maksymalna prêdkosc: "+ CurrToStr(Form1->Linia->Vmax(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())));
-        Form4->Label7->Caption = "Nastepna predkosc (obnizenie): "+ CurrToStr(Form1->Linia->NextSpeed(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())));
-        Form4->Label8->Caption = "Dystans do obnizenia predkosci: "+ CurrToStr(Form1->Linia->DistanceToSpeedChange(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())));
-        Form4->Label9->Caption = "Droga hamowania: "+ CurrToStr(Form1->Hamulec->DistanceOfBraking(Form1->Linia->Vmax(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())),Form1->Linia->NextSpeed(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())),atoi(Edit7->Text.c_str())));
+       // Form4->Label7->Caption = "Nastepna predkosc (obnizenie): "+ CurrToStr(Form1->Linia->NextSpeed(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())));
+       // Form4->Label8->Caption = "Dystans do obnizenia predkosci: "+ CurrToStr(Form1->Linia->DistanceToSpeedChange(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())));
+       // Form4->Label9->Caption = "Droga hamowania: "+ CurrToStr(Form1->Hamulec->DistanceOfBraking(Form1->Linia->Vmax(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())),Form1->Linia->NextSpeed(0,Pociag->TrainLength(),atoi(Form1->Edit13->Text.c_str())),atoi(Edit7->Text.c_str())));
        // Form4->Label10->Caption = "Najblizszy pkt hamowania: "+CurrToStr(Form1->Hamulec->BrakeLaunch(0,Form1->Linia,Form1->Pociag));
         }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::Edit13Change(TObject *Sender)
 {
-Form4->Wykres2=0;
+        Form4->Wykres2=0;
 }
 //---------------------------------------------------------------------------
 
@@ -355,20 +373,31 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
 {
 
         if(Form4->Wykres2==1){
+         
                 //std::map<int,int> TimeTable = GetTimetable(jazda);
                  Rozklad = new TimeTable(jazda,Linia);
-                Form7->Visible="TRUE";
+                Form7->Show();
                  Form7->ListBox1->Clear();
                  Form7->ListBox2->Clear();
                  Form7->ListBox3->Clear();
                  Form7->ListBox4->Clear();
+                 Form7->ComboBox1->Clear();
+                 Form7->ComboBox2->Clear();
+                 Form7->ComboBox3->Clear();
+                    Form7->ComboBox2->Items->Add("Przyjazd");
+                       Form7->ComboBox2->Items->Add("Odjazd");
+                       Form7->ComboBox2->Enabled=0;
                 for(int i=0;i<Rozklad->CountSection();i++){
-                        Form7->ListBox2->Items->Add(Rozklad->ShowEnd(i,Linia));
+                        Form7->ListBox2->Items->Add(Rozklad->ShowEnd(i));
                         Form7->ListBox3->Items->Add(Rozklad->ShowTime(i));
                         Form7->ListBox1->Items->Add(Rozklad->ShowStop(i));
-                         Form7->ListBox4->Items->Add(Rozklad->ShowSchedule(i));
+                        Form7->ListBox4->Items->Add(Rozklad->ShowSchedule(i));
+                        Form7->ComboBox1->Items->Add(Rozklad->ShowEnd(i));
+                        Form7->ComboBox3->Items->Add(Rozklad->ShowEnd(i));
 
                 }
+                Form7->ComboBox1->ItemIndex=0;
+                Form7->ComboBox2->ItemIndex=1;
 
                // ShowMessage("Rozmiar = "+CurrToStr(Rozklad.CountSection()));
 
@@ -377,5 +406,8 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
                 Application->MessageBoxA("Brak profilu dynamicznego","B³¹d",MB_ICONERROR);
         }
 }
+//---------------------------------------------------------------------------
+
+
 //---------------------------------------------------------------------------
 

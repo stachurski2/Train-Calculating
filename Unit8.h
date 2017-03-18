@@ -1,40 +1,29 @@
 //---------------------------------------------------------------------------
 
-#ifndef Unit6H
-#define Unit6H
+#ifndef Unit8H
+#define Unit8H
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 //---------------------------------------------------------------------------
-class TForm6 : public TForm
+class TForm8 : public TForm
 {
 __published:	// IDE-managed Components
         TEdit *Edit1;
         TEdit *Edit2;
-        TEdit *Edit3;
-        TButton *Button1;
-        TLabel *Label2;
-        TLabel *Label3;
-        TLabel *Label4;
-        TCheckBox *CheckBox1;
-        TLabel *Label5;
-        TLabel *Label6;
-        TCheckBox *CheckBox2;
-        TButton *Button2;
-        TCheckBox *CheckBox3;
         TLabel *Label1;
+        TLabel *Label2;
+        TButton *Button1;
+        TButton *Button2;
         void __fastcall Button1Click(TObject *Sender);
-        void __fastcall CheckBox2Click(TObject *Sender);
         void __fastcall Button2Click(TObject *Sender);
-        void __fastcall CheckBox3Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
-        __fastcall TForm6(TComponent* Owner);
-        int number_of_section;
+        __fastcall TForm8(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm6 *Form6;
+extern PACKAGE TForm8 *Form8;
 //---------------------------------------------------------------------------
 #endif

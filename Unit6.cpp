@@ -41,6 +41,7 @@ void __fastcall TForm6::Button1Click(TObject *Sender)
                 for(int i=0; i<Form1->Linia->DescriptionCount(); i++){
                         AnsiString s=Form1->Linia->ShowDescribe(i);
                         Form2->ListBox2->Items->Add(s);}
+                if(Form1->Linia->DescriptionCount()==0){Form2->ListBox2->Items->Add("      ");}       
                 Form6->Close();
 
 
@@ -79,8 +80,29 @@ void __fastcall TForm6::Button2Click(TObject *Sender)
                 for(int i=0; i<Form1->Linia->DescriptionCount(); i++){
                         AnsiString s=Form1->Linia->ShowDescribe(i);
                         Form2->ListBox2->Items->Add(s);}
+                if(Form1->Linia->DescriptionCount()==0){Form2->ListBox2->Items->Add("      ");}
                 Form6->Close();
 
+                /*
+
+
+                */
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm6::CheckBox3Click(TObject *Sender)
+{
+        if(CheckBox3->Checked==1){
+                Edit1->Text = CurrToStr(Form1->Linia->ShowLength());
+                Edit1->Enabled = 0;
+        }
+        else
+        {
+                Edit1->Text = " ";
+                Edit1->Enabled = 1;
+
+        }
 }
 //---------------------------------------------------------------------------
 

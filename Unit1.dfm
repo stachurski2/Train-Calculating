@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 613
-  Top = 73
+  Left = 583
+  Top = 76
   BorderStyle = bsToolWindow
-  Caption = 'EVC microsimulator 0.1'
+  Caption = 'Open Train Calculating 0.2'
   ClientHeight = 302
   ClientWidth = 502
   Color = clBtnFace
