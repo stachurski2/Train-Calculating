@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<route>
+	<line>
+		<section id="0">
+			<end>200</end>
+			<speed>40</speed>
+		</section>
+		<section id="1">
+			<end>1000</end>
+			<speed>80</speed>
+		</section>
+		<section id="2">
+			<end>1020</end>
+			<speed>20</speed>
+			<spot>1</spot>
+		</section>
+		<section id="3">
+			<end>6230</end>
+			<speed>120</speed>
+		</section>
+		<section id="4">
+			<end>7120</end>
+			<speed>80</speed>
+		</section>
+		<section id="5">
+			<end>8200</end>
+			<speed>120</speed>
+		</section>
+		<section id="6">
+			<end>8250</end>
+			<speed>20</speed>
+			<spot>1</spot>
+		</section>
+		<section id="7">
+			<end>10200</end>
+			<speed>120</speed>
+		</section>
+	</line>
+	<description>
+		<point place="0">Stacja Korolewo</point>
+		<point place="1020">Przejazd Kolejowy</point>
+		<point place="5900">Semafor wjazdowy</point>
+		<point place="6230">most zwodzony poczatek</point>
+		<point place="7120">most zwodzony koniec</point>
+		<point place="8200">Bór leœny, brak widocznosci</point>
+		<point place="10200">Stacja £apczewo</point>
+	</description>
+</route>

@@ -254,8 +254,14 @@ void Route::ChangeSection(bool del, int i, double start, double ends, int speeds
        if(del==1){
                 //delete of section
                 if(i>0){
-                        if(i<Size()){
-                                 end->at(i-1) = end->at(i);
+                        if(i<Size()-1){
+                                end->at(i-1) = end->at(i);
+                                begin -> erase(begin->begin()+i);
+                                end -> erase(end->begin()+i);
+                                speed -> erase(speed->begin()+i);
+                                spot -> erase(spot->begin()+i);
+                        }
+                        if(i==Size()-1){
                                 begin -> erase(begin->begin()+i);
                                 end -> erase(end->begin()+i);
                                 speed -> erase(speed->begin()+i);
