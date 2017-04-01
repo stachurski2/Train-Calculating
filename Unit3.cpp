@@ -143,8 +143,7 @@ void __fastcall TForm3::Button3Click(TObject *Sender)
         Form1 -> Pojazd -> AddChar(Speed,Force);
         ListBox1->Clear();
         for (int i=0; i<Form1->Pojazd->CharSize(); i++){
-                Form3->ListBox1->Items->Add(Form1->Pojazd->ShowChar(i,0));
-                }
+               Form3->ListBox1->Items->Add(Form1->Pojazd->ShowChar(i,0));}
         RysujWykres();
          Form1->Edit13->Text = CurrToStr(Form1->Pojazd->Vmax());
 }

@@ -250,18 +250,30 @@ int Route::FindSection(int meters){
 
 }
 
+
+
+
 void Route::ChangeSection(bool del, int i, double start, double ends, int speeds, bool spots){
        if(del==1){
                 //delete of section
                 if(i>0){
                         if(i<Size()-1){
-                                end->at(i-1) = end->at(i);
-                                begin -> erase(begin->begin()+i);
-                                end -> erase(end->begin()+i);
-                                speed -> erase(speed->begin()+i);
-                                spot -> erase(spot->begin()+i);
+                                    end->at(i-1) = end->at(i);
+                                    begin->at(i+1)= end->at(i);
+                                /*
+                                    begin->at(i) =0;
+                                    end->at(i) = 0;
+                                    speed -> at(i) = 0;
+                                  spot -> at(i) =0 ;
+                                  */
+
+                                    begin -> erase(begin->begin()+i);
+                                   end -> erase(end->begin()+i);
+                                   speed -> erase(speed->begin()+i);
+                                  spot -> erase(spot->begin()+i);
+
                         }
-                        if(i==Size()-1){
+                        else if(i==Size()-1){
                                 begin -> erase(begin->begin()+i);
                                 end -> erase(end->begin()+i);
                                 speed -> erase(speed->begin()+i);
@@ -419,8 +431,28 @@ void Route::ChangeSection(bool del, int i, double start, double ends, int speeds
         }
        }
    }
+   OptimizeSections();
 }
 
+
+void Route::OptimizeSections(){
+        int speedc=speed->at(0);
+         for(int nr=0;nr<Size();nr++){
+          if(nr){
+                if(speedc==speed->at(nr)){
+                        end->at(nr-1) = end -> at(nr);
+                        begin->erase(begin->begin()+nr);
+                        end->erase(end->begin()+nr);
+                        speed->erase(speed->begin()+nr);
+
+                }
+
+
+           }
+           if(nr >=Size()){break;}
+            speedc=speed->at(nr);
+         }
+}
 
 AnsiString Route::ShowDescribe(int i){
 
@@ -909,11 +941,9 @@ void Vehicle::AddChar(int Speed, double Force){
                 iterator=characteristic->begin();
                 int speeda=iterator->first;
                 while(speeda<Speed){
-                        iterator++;
-                        speeda=iterator->first;
-                        if(iterator == characteristic->end()){
-                        break;
-                        }
+                         speeda=iterator->first;
+                        if(iterator == characteristic->end()){ break;}
+                          iterator++;
                 };
                // ShowMessage(CurrToStr(std::distance(characteristic->begin(),iterator)));
                  characteristic -> insert(iterator,std::pair<int,double>(Speed,Force));
@@ -1014,7 +1044,9 @@ double Vehicle::CountWeight(){
 
 bool Vehicle::ReadyToGo(){
         std::map<int,double>::iterator  iterator=characteristic->find(0);
-        if(Vmax()>0 && CountWeight()>0 && std::distance(characteristic->begin(),iterator)!=CharSize()){
+        int a = CountWeight();
+        int b = Vmax();
+        if(b>0 && a>0 && std::distance(characteristic->begin(),iterator)!=CharSize()){
                 return 1;
         }
         else {
@@ -1023,12 +1055,12 @@ bool Vehicle::ReadyToGo(){
 
 
 }
-Vehicle::Vehicle(Vehicle *V1){
-        name = V1->name;
-        wheels = V1->wheels;
-        weight = V1->weight;
-        length = V1->length;
-        characteristic = V1->characteristic;
+Vehicle::Vehicle(Vehicle* V1){
+        name = V1 -> name;
+        wheels = V1 -> wheels;
+        weight = V1 -> weight;
+        length = V1 -> length;
+        characteristic = V1 -> characteristic;
 };
 
 
@@ -1041,11 +1073,11 @@ Train::Train(Vehicle *poj,int loc,int CarWheel ,double CarWeigh ,int CarLengt ,i
         CarWeight = CarWeigh;
         PercentOfBrakingMass = PercentOfBrakingMas;
         if(Vmax>poj->Vmax()){
-                MaxSpeed=poj->Vmax();
+           MaxSpeed=poj->Vmax();
         }
         else {
                 MaxSpeed=Vmax;
-        }
+       }
 
 }
 
@@ -1551,7 +1583,8 @@ std::map<int,int> trainride(Train *train,Route *line, Brake *brake){
         return goal;
 }
 
-TimeTable::TimeTable (std::map<int,int> DynamicProfile, Route *r){
+TimeTable::TimeTable (std::map<int,int> DynamicProfile, Route *r, Train &poc):Train(poc){
+        LeadingPoint = 0;
         double time =0;
         int start=0;
         int d=DynamicProfile.size();
@@ -1568,7 +1601,8 @@ TimeTable::TimeTable (std::map<int,int> DynamicProfile, Route *r){
                 else if(DynamicProfile[i]==0 || r->Show(i)!="null"){
                         std::pair<int,int> goal(start,i);
                         start=i;
-                        Times.insert(std::pair<std::pair<int,int>,double>(goal,time));
+                        int rtime = time +1;
+                        Times.insert(std::pair<std::pair<int,int>,double>(goal,rtime));
                         Points.insert(std::pair<int,AnsiString>(i,r->Show(i)));
                         time=0;
                         if(DynamicProfile[i]==0 && i<d-3){Stops.insert(std::pair<int,int>(i,60));}
@@ -1596,25 +1630,34 @@ TimeTable::TimeTable (std::map<int,int> DynamicProfile, Route *r){
 
 }
 
-int TimeTable::CountSection(){
+
+int TimeTable::CountSection() {
         return Times.size();
 }
 
-AnsiString TimeTable::ShowStart(int i){
+AnsiString TimeTable::ShowStart(int i) {
        std::map<std::pair<int,int>,double>::iterator it= Times.begin();
        std::advance(it,i);
        return CurrToStr(it->first.first);
 
 }
 
-AnsiString TimeTable::ShowEnd(int i){
+AnsiString TimeTable::ShowEnd(int i) {
        std::map<std::pair<int,int>,double>::iterator it= Times.begin();
        std::advance(it,i);
        return CurrToStr(it->first.second)+" - "+Points[it->first.second];
 
 }
 
-AnsiString TimeTable::ShowTime(int i){
+AnsiString TimeTable::ShowPosition(int i){
+        std::map<std::pair<int,int>,double>::iterator it= Times.begin();
+       std::advance(it,i);
+       double goal =it->first.second;
+       return CurrToStr(goal/1000);
+}
+
+AnsiString TimeTable::ShowTime(int i) {
+        if(i>0){
        std::map<std::pair<int,int>,double>::iterator it= Times.begin();
        std::advance(it,i);
        int time = it->second;
@@ -1628,11 +1671,13 @@ AnsiString TimeTable::ShowTime(int i){
        if(hour<10){shour = "0"+shour;}
        if(minute<10){sminute = "0"+sminute;}
        if(seconds<10){sseconds = "0"+sseconds;}
-       return shour+":"+sminute+":"+sseconds;
+       return shour+":"+sminute+":"+sseconds;}
+       else
+       return "-";
 
 }
 
-AnsiString TimeTable::ShowStop(int i){
+AnsiString TimeTable::ShowStop(int i) {
        std::map<int,int>::iterator it= Stops.begin();
        std::advance(it,i);
        int time = it->second;
@@ -1656,7 +1701,7 @@ AnsiString TimeTable::ShowStop(int i){
 
 }
 
-AnsiString TimeTable::ShowSchedule(int i){
+AnsiString TimeTable::ShowSchedule(int i) {
         std::map<int,std::pair<double,double> >::iterator it= Schedule.begin();
         std::advance(it,i);
         if( it->second.first!=it->second.second){ return ConvertTime(it->second.first) + " \\ " + ConvertTime(it->second.second);}
@@ -1671,6 +1716,74 @@ AnsiString TimeTable::ShowNamePoint(int i){
 
 
 }
+
+AnsiString TimeTable::ShowTime1(int i)  {
+         std::map<std::pair<int,int>,double>::iterator it= Times.begin();
+         std::advance(it,i);
+         int a = it->second;
+         a=a/60;
+         AnsiString goal = CurrToStr(a);
+         if(a<10){goal = "0"+goal;}
+         return goal;
+
+
+}
+
+AnsiString TimeTable::ShowTime2(int i)  {
+          std::map<std::pair<int,int>,double>::iterator it= Times.begin();
+         std::advance(it,i);
+         int a = it->second;
+         int b = a/60;
+          a= a - b*60;
+          AnsiString goal = CurrToStr(a);
+         if(a<10){goal = "0"+goal;}
+         return goal;
+}
+
+AnsiString TimeTable::ShowStop1(int i)  {
+         std::map<int,int>::iterator it= Stops.begin();
+         std::advance(it,i);
+          int time = it->second;
+          if(time>0){
+                int minute = time/60;
+                if (minute<10){return "0" + CurrToStr(minute);}
+                else { return CurrToStr(minute);}
+                }
+       else     {
+
+                return "-";
+
+                }
+
+}
+
+AnsiString TimeTable::ShowStop2(int i)  {
+           std::map<int,int>::iterator it= Stops.begin();
+         std::advance(it,i);
+          int time = it->second;
+          if(time>0){
+                int minute = time/60;
+                time = time - minute*60;
+                if (time<10){return "0" + CurrToStr(time);}
+                else { return CurrToStr(time);}
+                }
+       else     {
+
+                return "-";
+
+                }
+
+}
+
+double  TimeTable::ReserveTime(int i, TimeTable* t){
+
+        int a = TrainRide(i);
+        int b = t->TrainRide(i);
+        return a-b;
+
+
+}
+
 
 AnsiString TimeTable::ConvertTime(int time){
        int hour = time/3600;
@@ -1688,9 +1801,10 @@ AnsiString TimeTable::ConvertTime(int time){
 
 }
 
-void TimeTable::ChangeStartTime(int a,int b,int c, bool d){
+void TimeTable::ChangeStartTime(int StartTime,int c, bool d){
 //a - hours, b - minutes, c - section of start, d - departure (false), arrival (true)
-        StartTime = a *3600 + b*60;
+       // StartTime = a *3600 + b*60;
+        d==0 ? LeadingPoint=c : LeadingPoint=-c ;
         int point;
         double departure,arrival,arr;
         Schedule.clear();
@@ -1737,39 +1851,132 @@ void TimeTable::ChangeStartTime(int a,int b,int c, bool d){
              std::pair<int,std::pair<double,double> >Goal(point,goal);
              Schedule.insert(Goal);
         }
+}
+double TimeTable::TrainRide(int i) {
+        std::map<std::pair<int,int>,double>::iterator TimeIterator = Times.begin();
+        std::advance(TimeIterator,i);
+        return TimeIterator->second;
+}
+double TimeTable::StopTime(int i) {
+         std::map<int,int>::iterator StopsIterator = Stops.begin();
+         std::advance(StopsIterator,i);
+        return StopsIterator->second;
+}
 
-        /*
-        for(int i=0;i<Times.size();i++){
-                std::map<std::pair<int,int>,double>::iterator it = Times.begin();
-                std::map<int,int>::iterator it1 = Stops.begin();
-                std::advance(it,i);
-                std::advance(it1,i);
-                point = it->first.second;
-                cumulatedtime =  cumulatedtime + it->second;
-                arrival = cumulatedtime;
-                cumulatedtime =  cumulatedtime + it1->second;
-                departure =  cumulatedtime;
-                std::pair<double,double>goal(arrival,departure);
-                std::pair<int,std::pair<double,double> >Goal(point,goal);
-                Schedule.insert(Goal);
+void TimeTable::RoundTimes() {
+        std::map<std::pair<int,int>,double>::iterator TimeIterator = Times.begin();
+        while(TimeIterator != Times.end()){
+
+                int a = TimeIterator -> second;
+                while(a%15!=0){a++;}
+                TimeIterator -> second = a;
+                std::advance(TimeIterator,1);
         }
-        */
+        ChangeStartTime(StartingTime());
+}
+
+int TimeTable::StartingTime(){
+        std::map<int,std::pair<double,double> >::iterator it = Schedule.begin();
+        return it -> second.first;
+
+}
+
+int TimeTable::ChangeSection(TimeTable *RawTimeTable,int i, AnsiString name, int tr, int ts ){
+        //first parameter i - number of section in timetable, name - name of point, tr - time of train ride from pervious to current point, time of stop at point (if it's avaliable = 0);
+        // fuction is returning values: if everything is good - 0; if time of train ride is lower than raw time train ride - 1, if time of stop isn't matching to point  - 2;
+        std::map<std::pair<int,int>,double>::iterator TimeIterator = Times.begin();
+        std::map<int,AnsiString>::iterator PointIterator = Points.begin();
+        std::map<int,int>::iterator StopsIterator = Stops.begin();
+        std::advance(TimeIterator,i);
+        std::advance(PointIterator,i);
+        std::advance(StopsIterator,i);
+
+        if(tr<RawTimeTable->TrainRide(i)){
+                return 1;
+        }
+        else if (RawTimeTable->StopTime(i) ==0 && ts>0){
+                return 2;
+        }
+        else
+        {
+                TimeIterator -> second = tr;
+                PointIterator -> second = name;
+                StopsIterator -> second = ts;
+                ChangeStartTime(StartingTime());
+                return 0;
+        }
+
 
 
 }
 
-std::map<int,int> GetTimetable (std::map<int,int> DynamicProfile) {
-        std::map<int,int> goal;
-        double time = 0;
-        goal.insert(std::pair<int,int>(0,time));
-        int d=DynamicProfile.size();
-        for(int i=0;i<d;i++){
-                double ttime=0;
-                if(DynamicProfile[i]!=0){ttime=1/(DynamicProfile[i]/3.6);}
-                time = time+ttime;
-        }
-        goal.insert(std::pair<int,int>(d,time));
-        return goal;
+
+TStringList* TimeTable::FinalReport(TimeTable* pt){
+        //generate image
+        Graphics::TBitmap *LaCourt = new Graphics::TBitmap;
+        //generate html
+        TStringList* goal = new TStringList;
+        goal -> Add("<!DOCTYPE html>");
+        goal -> Add("<html>");
+          goal -> Add("<head>");
+          goal -> Add("<meta charset=\"windows-1250\"/>");
+           //styles
+           goal -> Add("<style>");
+           goal -> Add(" #rodzic \n { background-color:#00407D; \n width: 1000px; \n color:white; \n border:1px solid black; \n font-size:28px; \n margin: 0 auto; \n text-align: center; \n border-radius: 12px;  \n }");
+           goal -> Add(" #rodzic:after \n { \n content:''; \n display:block; \n clear:both; \n text-align: center; \n }");
+           goal -> Add(" #dziecko1 \n { \n font-size:14px; \n float:left; \n width:50%; \n background-color:#00407D; \n border-radius: 12px; \n }");
+           goal -> Add(" #dziecko2 \n { \n font-size:14px; \n float:left; \n width:50%; \n backgorund-clolor:#00407D; \n  border-radius: 12px; \n}");
+           goal -> Add(" div > div > div \n { \n color: #000000; \n text-align: center; \n margin: 5px; \n padding: 5px; \n border: 2px solid black; \n background-color:gold; \n border-radius: 12px; \n  }");
+           goal -> Add(" prog \n { \n background-color:#13a8ff; \n padding: 4px; \n font-style: oblique; \n border-radius: 12px; \n color:white; \n margin:4px; }");
+           goal -> Add("\n body \n { \n background-color: #13a8ff; \n font-size: 28px \n } \n table \n table,th { \n border:1px solid gray; \n ;    \n }\n" );
+           goal -> Add("table");
+           goal -> Add("table tr, th{ \n border:1px solid black; \n background-color:gold; \n color: black; \n border-radius: 12px;\n } ");
+           goal -> Add("table tr, td{ \n text-align: center; \n border:1px solid black; \n background-color:#00407D; \n border-radius: 12px; \n color:white; \n padding: 5px; \n }");
+           goal -> Add("up, down { position: relative; display: block; height:20px; background-color: gold; border: 1px solid black; width:100%; margin: 0 auto; font-size:14px; text-align:center; color: red;}");
+           goal -> Add("</style>");
+           //styles
+           goal -> Add ("<title>Raport z programu Open Traction Characteristic 0.2a </title>");
+           goal -> Add("</head>");
+           goal -> Add("<body>");
+           goal -> Add("<up>Wygenarowano za pomoc¹ progamu Open Traction Calculating 0.2a</up>");
+           goal -> Add("<div id=\"rodzic\">");
+           goal -> Add("<center><b>Karta poci¹gu</b></center>");
+           goal -> Add("<div id=\"dziecko1\">");
+           goal -> Add("<div> Nazwa pojazdu trakcyjnego:  <prog>"+name+"</prog></div>");
+           goal -> Add("<div>Liczba pojazdów trakcyjnych: <prog>"+CurrToStr(Locos)+"</prog></div>");
+           goal -> Add("<div> Masa brutto sk³adu: <prog>"+CurrToStr(TrainWeight())+"t</prog></div>");
+           goal -> Add("</div>");
+           goal -> Add("<div id=\"dziecko2\">");
+           goal -> Add("<div> D³ugoœæ pociagu: <prog>"+CurrToStr(TrainLength())+"m</prog></div>");
+	   goal -> Add("<div> Prêdkoœæ maksymalna: <prog>"+CurrToStr(TrainMaxSpeed())+" km/h </prog></div>");
+	  goal -> Add("<div>Procent masy hamuj¹cej: <prog>"+CurrToStr(PercentOfBrakingMass)+"%</prog></div>");
+        goal -> Add("</div>");
+        goal -> Add("</div>");
+           goal -> Add("<div id=\"rodzic\">");
+            goal -> Add("<center><b>Rozk³ad jazdy</b></center>");
+           goal -> Add("<table style=\"width:1000px; background-color:#00407D;\;font-size:14px;\" align=\"center\"> \n <tr> \n <th>Po³o¿enie</th> \n <th>Punkt Rozk³adowy</th> \n <th>Przyjazd/Odjazd</th> \n <th>Rezerwa</th> \n </tr>");
+           for(int i=0;i<CountSection();i++){
+           AnsiString str;
+                if(i==LeadingPoint || i==-LeadingPoint){
+                        if(LeadingPoint>0){ str ="p. wiod¹cy odjazd";}
+                        else {str = "p. wiod¹cy przyjazd";}
+                goal -> Add("<tr> \n <td><prog>"+ShowPosition(i)+" km</prog></td> \n <td><prog>"+ShowNamePoint(i)+"</prog> - "+str+"</td> \n <td><prog>"+ShowSchedule(i)+"</prog></td> \n <td><prog>"+CurrToStr(ReserveTime(i,pt)) +"s</prog></td> \n <tr>");
+                }
+                else {
+                goal -> Add("<tr> \n <td>"+ShowPosition(i)+" km</td> \n <td>"+ShowNamePoint(i)+"</td> \n <td>"+ShowSchedule(i)+"</td> \n <td>"+CurrToStr(ReserveTime(i,pt)) +"s</td> \n <tr>");
+                }
+           }
+
+            goal ->Add("</table>");
+              goal -> Add("</div>");
+               goal ->Add("<down>Wygenarowano za pomoc¹ progamu Open Traction Calculating 0.2a</down>");
+           goal -> Add("</body>");
+        goal -> Add("</html>");
+
+          return goal;
+
 }
+
+
 
 

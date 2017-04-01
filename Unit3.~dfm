@@ -1,9 +1,9 @@
 object Form3: TForm3
-  Left = 274
-  Top = 476
+  Left = 308
+  Top = 177
   Width = 967
-  Height = 671
-  Caption = 'Form3'
+  Height = 673
+  Caption = 'Charakterystyka pojazdu trakcyjnego'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

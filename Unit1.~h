@@ -12,6 +12,7 @@
 #include "CGRID.h"
 #include <ExtCtrls.hpp>
 #include <Menus.hpp>
+#include <ComCtrls.hpp>
 #include <vector>
 #include <map>
 #include <iterator>
@@ -82,6 +83,7 @@ __published:	// IDE-managed Components
         TMenuItem *Oprogramie2;
         TMenuItem *Pomoc1;
         TMenuItem *Zakocz1;
+        TStatusBar *StatusBar1;
         void __fastcall ZaladujLinie1Click(TObject *Sender);
         void __fastcall EdytujLinie1Click(TObject *Sender);
         void __fastcall W1Click(TObject *Sender);

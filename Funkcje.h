@@ -29,6 +29,7 @@ AnsiString ShowEnd(int);
 AnsiString ShowSpeed(int);
 bool ShowSpot(int);
 int FindSection(int);
+void OptimizeSections();
 void ChangeSection(bool,int,double,double,int,bool);
 double ShowLength() const;
 int Size();
@@ -68,7 +69,7 @@ Vehicle(TStringList *pointer=0);
 //destructor
 ~Vehicle();
 //copying construcotr
-Vehicle(Vehicle *V1);
+Vehicle(Vehicle*);
 //display
 AnsiString ShowName();
 AnsiString ShowWheels();
@@ -97,6 +98,7 @@ bool ReadyToGo();// checking wether Vehicle is good to counting
 };
 
 class Train:public Vehicle {
+protected:
 int Locos;
 int CarWheels;
 int CarLength;
@@ -136,25 +138,40 @@ std::map<std::pair<int,int>,std::pair<int,int> > brakecount(Train*,Route*,Brake*
 std::map<int,int> staticprofile(Route*,Train*);       //board of maximumspeed for Train with Rute
 std::map<int,int> trainride(Train*,Route*,Brake*);   //board of speed for Train on Route with Brake and acceleration
 
-class TimeTable {
+class TimeTable: public Train {
 std::map<std::pair<int,int>,double> Times;
 std::map<int,AnsiString> Points;
 std::map<int,int> Stops;
 std::map<int,std::pair<double,double> > Schedule;
 int StartTime;
+int LeadingPoint;
 
 public:
-TimeTable(std::map<int,int>,Route*);
-int CountSection();
-void ChangeStartTime(int,int,int=0,bool=0);
-AnsiString ConvertTime(int);
-AnsiString ShowStart(int);
-AnsiString ShowEnd(int);
-AnsiString ShowTime(int);
-AnsiString ShowStop(int);
-AnsiString ShowSchedule(int);
-AnsiString ShowNamePoint(int);
+TimeTable(std::map<int,int>,Route*,Train&);
+//functions neccessary to edit TimeTable:
 
+int CountSection() ;
+int StartingTime();
+double TrainRide(int) ;
+double StopTime(int) ;
+void ChangeStartTime(int,int=0,bool=0);
+int ChangeSection(TimeTable*,int,AnsiString,int,int);
+void RoundTimes();
+double ReserveTime(int, TimeTable*);
+TStringList *FinalReport(TimeTable*);
+//Functions to show data in window
+AnsiString ConvertTime(int) ;
+AnsiString ShowStart(int);
+AnsiString ShowEnd(int) ;
+AnsiString ShowTime(int) ;
+AnsiString ShowStop(int) ;
+AnsiString ShowSchedule(int) ;
+AnsiString ShowNamePoint(int) ;
+AnsiString ShowTime1(int) ;
+AnsiString ShowTime2(int);
+AnsiString ShowStop1(int);
+AnsiString ShowStop2(int);
+AnsiString ShowPosition(int);
 
 };
 

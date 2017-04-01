@@ -9,6 +9,7 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include <Menus.hpp>
+#include <Dialogs.hpp>
 //---------------------------------------------------------------------------
 class TForm7 : public TForm
 {
@@ -27,7 +28,6 @@ __published:	// IDE-managed Components
         TLabel *Label5;
         TListBox *ListBox4;
         TButton *Button1;
-        TButton *Button2;
         TButton *Button3;
         TPopupMenu *PopupMenu1;
         TGroupBox *GroupBox1;
@@ -50,6 +50,9 @@ __published:	// IDE-managed Components
         TLabel *Label14;
         TEdit *Edit7;
         TLabel *Label15;
+        TButton *Button5;
+        TLabel *Label16;
+        TSaveDialog *SaveDialog1;
         void __fastcall Button3Click(TObject *Sender);
         void __fastcall ListBox1Click(TObject *Sender);
         void __fastcall ListBox2Click(TObject *Sender);
@@ -57,9 +60,17 @@ __published:	// IDE-managed Components
         void __fastcall ComboBox1Change(TObject *Sender);
         void __fastcall ListBox4Click(TObject *Sender);
         void __fastcall ListBox3Click(TObject *Sender);
+        void __fastcall ComboBox3Change(TObject *Sender);
+        void __fastcall Button4Click(TObject *Sender);
+        void __fastcall Button5Click(TObject *Sender);
+        void __fastcall Button1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm7(TComponent* Owner);
+        void ShowData(int);
+        void ShowTimeTable(TimeTable*,TimeTable*);
+        void CreateTemplate(TimeTable*);
+        TimeTable *pt;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm7 *Form7;

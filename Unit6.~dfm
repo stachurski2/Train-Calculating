@@ -104,7 +104,7 @@ object Form6: TForm6
   end
   object Button2: TButton
     Left = 104
-    Top = 96
+    Top = 112
     Width = 97
     Height = 25
     Caption = 'Dodaj odc.'

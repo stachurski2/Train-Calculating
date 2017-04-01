@@ -57,13 +57,13 @@ void __fastcall TForm2::Button2Click(TObject *Sender)
 {
         double a,b;
         int c;
-        a=atof((Edit1->Text).c_str());
+        //a=atof((Edit1->Text).c_str());
         if(Form1->Linia->Size()==0){
                 b=0;
         }
         else {
                 b=Form1->Linia->ShowLength(); }
-        c=atoi((Edit2->Text).c_str());
+        //c=atoi((Edit2->Text).c_str());
 
 
         if(a<=b){
@@ -136,10 +136,11 @@ if(Form1->Linia->DescriptionCount()>0){
 
 void __fastcall TForm2::Button5Click(TObject *Sender)
 {
-if(Edit4->Text!="" && Edit4->Text!=" " && atof((Edit3->Text).c_str())<=Form1->Linia->ShowLength()){
-String nazwa = Edit4->Text;
-double polozenie = atof((Edit3->Text).c_str());
-Form1->Linia->AddDescribe(polozenie,nazwa);
+/*
+//if(Edit4->Text!="" && Edit4->Text!=" " && atof((Edit3->Text).c_str())<=Form1->Linia->ShowLength()){
+//String nazwa = Edit4->Text;
+//double polozenie = atof((Edit3->Text).c_str());
+//Form1->Linia->AddDescribe(polozenie,nazwa);
 ListBox2->Items->Clear();
 if(Form1->Linia->ShowDescribe(0)!="0 - Start\0"){
 Form1->Linia->AddDescribe(0,"Start");
@@ -155,6 +156,7 @@ for(int i=0; i<Form1->Linia->DescriptionCount(); i++){
 AnsiString s=Form1->Linia->ShowDescribe(i);
 Form2->ListBox2->Items->Add(s);}
 }
+*/
 }
 //---------------------------------------------------------------------------
 
@@ -352,4 +354,5 @@ void __fastcall TForm2::Edytujpostj1Click(TObject *Sender)
         Form8->Button1->Visible=0;
 }
 //---------------------------------------------------------------------------
+
 

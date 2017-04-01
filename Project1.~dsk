@@ -1,37 +1,22 @@
 [Closed Files]
-File_0=SourceModule,'c:\program files (x86)\borland\cbuilder6\include\vcl\Classes.hpp',0,1,1122,1,1133,0,0
-File_1=SourceModule,'F:\Kulej\Moje programy\OT\Unit8.cpp',0,1,18,12,22,1,0
-File_2=SourceModule,'F:\Kulej\Moje programy\OT\Unit2.cpp',0,1,98,1,101,1,0
-File_3=SourceModule,'F:\Kulej\Moje programy\OT\Unit4.cpp',0,1,82,1,93,0,0
-File_4=SourceModule,'c:\program files (x86)\borland\cbuilder6\include\stl\_vector.h',0,1,154,1,165,0,0
-File_5=SourceModule,'c:\program files (x86)\borland\cbuilder6\include\stl\_tree.h',0,1,173,1,184,0,0
+File_0=SourceModule,'c:\program files (x86)\borland\cbuilder6\include\stl\_tree.h',0,1,342,1,357,0,0
+File_1=SourceModule,'F:\Kulej\Moje programy\OT\Funkcje.h',0,1,70,21,94,0,0
+File_2=SourceModule,'F:\Kulej\Moje programy\OT\Unit7.cpp',0,1,18,1,27,0,1
+File_3=SourceModule,'F:\Kulej\Moje programy\OT\Unit3.cpp',0,1,138,74,146,0,0
+File_4=SourceModule,'F:\Kulej\Moje programy\OT\Unit1.cpp',0,1,174,1,177,0,0
+File_5=SourceModule,'c:\program files (x86)\borland\cbuilder6\include\vcl\Classes.hpp',0,1,1122,1,1133,0,0
+File_6=SourceModule,'F:\Kulej\Moje programy\OT\Unit8.cpp',0,1,18,12,22,1,0
+File_7=SourceModule,'F:\Kulej\Moje programy\OT\Unit2.cpp',0,1,98,1,101,1,0
+File_8=SourceModule,'F:\Kulej\Moje programy\OT\Unit4.cpp',0,1,82,1,93,0,0
 
 [Modules]
 Module0=F:\Kulej\Moje programy\OT\Funkcje.cpp
-Module1=F:\Kulej\Moje programy\OT\Funkcje.h
-Module2=F:\Kulej\Moje programy\OT\Unit7.cpp
-Module3=F:\Kulej\Moje programy\OT\Unit1.cpp
-Count=4
+Count=1
 EditWindowCount=1
 
 [F:\Kulej\Moje programy\OT\Funkcje.cpp]
 ModuleType=SourceModule
 FormState=0
-FormOnTop=0
-
-[F:\Kulej\Moje programy\OT\Funkcje.h]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[F:\Kulej\Moje programy\OT\Unit7.cpp]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=0
-
-[F:\Kulej\Moje programy\OT\Unit1.cpp]
-ModuleType=SourceModule
-FormState=1
 FormOnTop=0
 
 [C:\Windows\system32\ProjectGroup1.bpg]
@@ -43,63 +28,40 @@ FormState=0
 FormOnTop=0
 
 [EditWindow0]
-ViewCount=4
-CurrentView=2
+ViewCount=1
+CurrentView=0
 View0=0
-View1=1
-View2=2
-View3=3
 MessageView=MessageView@EditWindow0
 Create=1
 Visible=1
 State=0
-Left=402
-Top=467
+Left=211
+Top=66
 Width=928
 Height=609
-MaxLeft=-8
-MaxTop=148
+MaxLeft=-1
+MaxTop=-1
 ClientWidth=912
 ClientHeight=570
 LeftPanelSize=0
 RightPanelSize=0
 BottomPanelSize=0
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=00000400010000000B0000004D6573736167655669657700000000000000000000000000000000000100000000000000000B0000004D65737361676556696577FFFFFFFF
+BottomPanelData=00000400010000000B0000004D657373616765566965770000000000000000000000000000000000FFFFFFFF
 
 [View0]
-Module=F:\Kulej\Moje programy\OT\Unit7.cpp
-CursorX=1
-CursorY=27
-TopLine=18
-LeftCol=1
-
-[View1]
-Module=F:\Kulej\Moje programy\OT\Unit1.cpp
-CursorX=14
-CursorY=380
-TopLine=362
-LeftCol=1
-
-[View2]
 Module=F:\Kulej\Moje programy\OT\Funkcje.cpp
-CursorX=35
-CursorY=1693
-TopLine=1677
-LeftCol=1
-
-[View3]
-Module=F:\Kulej\Moje programy\OT\Funkcje.h
-CursorX=21
-CursorY=148
-TopLine=137
+CursorX=13
+CursorY=1015
+TopLine=1001
 LeftCol=1
 
 [Watches]
 Count=0
 
 [Breakpoints]
-Count=0
+Count=1
+Breakpoint0='F:\Kulej\Moje programy\OT\Funkcje.cpp',1016,'',0,1,'',1,0,0,'',1,'','',''
 
 [AddressBreakpoints]
 Count=0
@@ -108,8 +70,8 @@ Count=0
 Create=1
 Visible=1
 State=0
-Left=0
-Top=5
+Left=16
+Top=199
 Width=1345
 Height=151
 MaxLeft=-1
@@ -159,7 +121,7 @@ MaxTop=-1
 ClientWidth=517
 ClientHeight=314
 DumpPane=79
-DisassemblyPane=297
+DisassemblyPane=55
 RegisterPane=231
 FlagPane=64
 
@@ -193,7 +155,7 @@ LRDockWidth=190
 Dockable=1
 SplitPos=85
 ArrangeBy=Name
-SelectedItem=Caption
+SelectedItem=
 ExpandedItems=HorzScrollBar
 HiddenCategories=
 
@@ -217,13 +179,13 @@ Dockable=1
 Create=1
 Visible=0
 State=0
-Left=12
-Top=0
-Width=1354
+Left=13
+Top=-685
+Width=443
 Height=85
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=1354
+ClientWidth=443
 ClientHeight=85
 TBDockHeight=85
 LRDockWidth=443

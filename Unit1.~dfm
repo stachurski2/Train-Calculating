@@ -1,9 +1,9 @@
 object Form1: TForm1
-  Left = 583
-  Top = 76
+  Left = 830
+  Top = 113
   BorderStyle = bsToolWindow
   Caption = 'Open Train Calculating 0.2'
-  ClientHeight = 302
+  ClientHeight = 322
   ClientWidth = 502
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -277,6 +277,14 @@ object Form1: TForm1
       TabOrder = 15
       OnClick = Button3Click
     end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 303
+    Width = 502
+    Height = 19
+    Panels = <>
+    SimplePanel = False
   end
   object OpenDialog1: TOpenDialog
     Filter = '.xml|*.xml'
